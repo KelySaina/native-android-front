@@ -1,17 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<!-- activity_main.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200px"
-    android:outlineSpotShadowColor="@color/white"
-    tools:context=".activities.AddActivity"
-    >
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/white">
 
-    <com.google.android.material.navigation.NavigationView
+    <TextView
+        android:id="@+id/labelMatricule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Matricule"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/editTextMatricule"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/nav"
-    />
+        android:layout_height="48dp"
+        android:layout_below="@id/labelMatricule"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter Matricule"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/labelName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextMatricule"
+        android:text="Name"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/labelName"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter Name"/>
+
+    <TextView
+        android:id="@+id/labelNoteM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NoteM"
+        android:textSize="18sp"
+        android:layout_below="@id/editTextName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/editTextNoteM"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/labelNoteM"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter NoteM"/>
+
+    <TextView
+        android:id="@+id/labelNotePhy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NotePhy"
+        android:textSize="18sp"
+        android:layout_below="@id/editTextNoteM"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/editTextNotePhy"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/labelNotePhy"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter NotePhy"/>
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:layout_below="@id/editTextNotePhy"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"/>
+</RelativeLayout>
