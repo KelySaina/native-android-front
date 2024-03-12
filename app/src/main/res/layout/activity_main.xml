@@ -1,41 +1,67 @@
-<!-- activity_landing.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
 
     <!-- Activity Title -->
     <TextView
         android:id="@+id/activityTitle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:text="Student Note Manager"
-        android:textSize="90px" />
+        android:textSize="90px"
+        android:layout_centerInParent="true"/>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listView"/>
-
+    <!-- BannerText placed below activityTitle -->
     <TextView
         android:id="@+id/bannerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/activityTitle"
         android:text="Students' Note Manager"
-        android:textSize="24sp"
-        android:textColor="#000000" />
+        android:textSize="17sp"
+        android:textColor="#00aaff" />
 
-    <Button
-        android:id="@+id/buttonAdd"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
+    <!-- ListView with height 800px, placed below bannerText -->
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="1650px"
+        android:layout_below="@id/bannerText" />
+
+    <!-- Add button aligned to the end and bottom -->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Add New"
-        android:textColor="#ffffff" />
+        android:layoutMode="opticalBounds">
+        <Button
+            android:id="@+id/buttonRefresh"
+            android:layout_width="450px"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Refresh List"
+            android:textColor="#ffffff" />
+        <Button
+            android:id="@+id/buttonAdd"
+            android:layout_width="450px"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Add New"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
 
 </RelativeLayout>

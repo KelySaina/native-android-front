@@ -4,47 +4,29 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
-    tools:context=".AddActivity">
+    tools:context=".EditActivity">
 
     <!-- Activity Title -->
     <TextView
-        android:id="@+id/activityAddTitle"
+        android:id="@+id/activityEditTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="Add Record"
+        android:text="Edit Record"
         android:textSize="90px"
         android:layout_centerInParent="true"/>
-
-    <TextView
-        android:id="@+id/labelMatricule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/activityAddTitle"
-        android:text="Matricule*"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"/>
-
-    <EditText
-        android:id="@+id/editTextMatricule"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/labelMatricule"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:hint="Ex: 1060 H-F"/>
 
     <TextView
         android:id="@+id/labelName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextMatricule"
+        android:layout_below="@id/activityEditTitle"
         android:text="Name*"
         android:textSize="18sp"
         android:layout_marginBottom="8dp"/>
 
     <EditText
-        android:id="@+id/editTextName"
+        android:id="@+id/editTextNewName"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/labelName"
@@ -58,13 +40,13 @@
         android:layout_height="wrap_content"
         android:text="Note MATH*"
         android:textSize="18sp"
-        android:layout_below="@id/editTextName"
+        android:layout_below="@id/editTextNewName"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"/>
 
     <EditText
         android:inputType="numberDecimal"
-        android:id="@+id/editTextNoteM"
+        android:id="@+id/editTextNewNoteM"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/labelNoteM"
@@ -78,13 +60,13 @@
         android:layout_height="wrap_content"
         android:text="Note PHY*"
         android:textSize="18sp"
-        android:layout_below="@id/editTextNoteM"
+        android:layout_below="@id/editTextNewNoteM"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"/>
 
     <EditText
         android:inputType="numberDecimal"
-        android:id="@+id/editTextNotePhy"
+        android:id="@+id/editTextNewNotePhy"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/labelNotePhy"
