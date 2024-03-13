@@ -10,9 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="Student Note Manager"
+        android:text="Gestion de Note"
         android:textSize="90px"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:textColor="@color/cardview_light_background"/>
 
     <!-- BannerText placed below activityTitle -->
     <TextView
@@ -20,16 +21,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/activityTitle"
-        android:text="Students' Note Manager"
-        android:textSize="17sp"
-        android:textColor="#00aaff" />
+        android:text="Stats"
+        android:textSize="15sp"
+        android:textColor="#00aaff"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"/>
 
     <!-- ListView with height 800px, placed below bannerText -->
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="1650px"
+        android:layout_height="1000px"
         android:layout_below="@id/bannerText" />
+
+    <TextView
+        android:id="@+id/footerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/listView"
+        android:layout_above="@id/lv"
+        android:text=""
+        android:textSize="22sp"
+        android:textColor="#00aaff"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"/>
 
     <!-- Add button aligned to the end and bottom -->
     <LinearLayout
@@ -40,7 +59,8 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layoutMode="opticalBounds">
+        android:layoutMode="opticalBounds"
+        android:id="@+id/lv">
         <Button
             android:id="@+id/buttonRefresh"
             android:layout_width="450px"
@@ -49,7 +69,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Refresh List"
+            android:text="Rafraichir"
             android:textColor="#ffffff" />
         <Button
             android:id="@+id/buttonAdd"
@@ -59,7 +79,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Add New"
+            android:text="Ajouter"
             android:textColor="#ffffff" />
     </LinearLayout>
 

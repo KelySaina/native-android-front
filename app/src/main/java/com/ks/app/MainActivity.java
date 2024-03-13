@@ -3,7 +3,6 @@ package com.ks.app;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,38 +35,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        refresh();
+    }
+
+    @Override
     public void onStart(){
         super.onStart();
         Button btnRef = (Button) findViewById(R.id.buttonRefresh);
         Button btnAdd = (Button) findViewById(R.id.buttonAdd);
-
-        TextView bannerText = findViewById(R.id.bannerText);
-        bannerText.setText("Loading data...");
-
-        // Example data (replace this with your actual data retrieval logic)
-        DataRetriever dr = new DataRetriever();
-        dr.fetchDataFromApi("https://merry-allowed-rhino.ngrok-free.app/listEtudiants")
-                .thenApplyAsync(data -> {
-                    students = dr.toArray(data);
-                    // Update UI with student data on the main thread
-                    runOnUiThread(() -> {
-                        if (students != null && students.length > 0) {
-                            bannerText.setText(students.toString());
-                            updateUIWithStudentData(students);
-                            bannerText.setText("");
-                        } else {
-                            bannerText.setText("Failed to fetch students data.\nCheck your internet connection");
-                        }
-                    });
-
-                    // Return the result to the next stage of the CompletableFuture chain
-                    return students;
-                })
-                .exceptionally(throwable -> {
-                    // Handle exceptions here, if needed
-                    Log.e(TAG, "Error fetching or processing data", throwable);
-                    return null;
-                });
+        refresh();
 
         btnRef.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,19 +67,56 @@ public class MainActivity extends AppCompatActivity {
         ListView l = (ListView) findViewById(R.id.listView);
         l.setAdapter(null);
         TextView bannerText = findViewById(R.id.bannerText);
-        bannerText.setText("Loading data...");
+        TextView footerText = findViewById(R.id.footerText);
+        bannerText.setText("Chargement...");
+        footerText.setText("");
         DataRetriever dr = new DataRetriever();
         dr.fetchDataFromApi("https://merry-allowed-rhino.ngrok-free.app/listEtudiants")
                 .thenApplyAsync(data -> {
+                    double totalNoteM = 0.0;
+                    double totalNoteP = 0.0;
+                    double minMean = Double.MAX_VALUE;  // Initialize minMean to a high value
+                    double maxMean = Double.MIN_VALUE;  // Initialize maxMean to a low value
+                    int nbAdmis = 0;
+                    int nbRed = 0;
                     students = dr.toArray(data);
+
+                    // Calculate total noteM and noteP, minMean, maxMean, nbAdmis, nbRed
+                    for (Student student : students) {
+                        double studentMean = (student.getNoteMath() + student.getNotePhy()) / 2.0;
+                        totalNoteM += student.getNoteMath();
+                        totalNoteP += student.getNotePhy();
+
+                        minMean = Math.min(minMean, studentMean);  // Update minMean
+                        maxMean = Math.max(maxMean, studentMean);  // Update maxMean
+
+                        if (studentMean >= 10) {
+                            nbAdmis++;
+                        } else {
+                            nbRed++;
+                        }
+                    }
+
+                    double overallMean = (totalNoteM + totalNoteP) / (2.0 * students.length);
+
                     // Update UI with student data on the main thread
+                    double finalMinMean = minMean;
+                    double finalMaxMean = maxMean;
+                    int finalNbAdmis = nbAdmis;
+                    int finalNbRed = nbRed;
                     runOnUiThread(() -> {
                         if (students != null && students.length > 0) {
                             bannerText.setText(students.toString());
                             updateUIWithStudentData(students);
                             bannerText.setText("");
+                            footerText.setText("");
+                            footerText.setText("Moyenne Generale: " + overallMean +
+                                    "\nMoyenne Minimale: " + finalMinMean +
+                                    "\nMoyenne Maximale: " + finalMaxMean +
+                                    "\nNombre de Passants: " + finalNbAdmis +
+                                    "\nNombre de Redoublants:" + finalNbRed);
                         } else {
-                            bannerText.setText("Failed to fetch students data.\nCheck your internet connection");
+                            bannerText.setText("Une erreur s'est produite.\nVerifier votre connexion Internet");
                         }
                     });
 
@@ -121,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         // Extract student names
         String[] studentNames = new String[students.length];
         for (int i = 0; i < students.length; i++) {
-            studentNames[i] = students[i].getNom()+"\n#"+students[i].getNumEt()+"\n\nMathematique:"+students[i].getNoteMath()+"         Physique:"+students[i].getNotePhy();
+            studentNames[i] = "[ "+students[i].getNom()+"#"+students[i].getNumEt()+"]\n-MATH: "+students[i].getNoteMath()+"\n-PHY: "+students[i].getNotePhy()+"\n>>>Moyenne: "+(students[i].getNoteMath()+students[i].getNotePhy())/2.0;
         }
 
         // Create an ArrayAdapter to bind data to the ListView
@@ -145,21 +160,41 @@ public class MainActivity extends AppCompatActivity {
             // Log or use the student number as needed
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Edit-Delete");
-            builder.setMessage("Edit or Delete Student #"+selectedStudentNumEt+" records");
+            builder.setTitle("Modifier-Supprimer");
+            builder.setMessage("Modifier ou Supprimer les informations de l'Etudiant #"+selectedStudentNumEt);
 
-            builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // Perform action on positive button click (e.g., confirm deletion)
-                    CRUDStudent delete = new CRUDStudent();
-                    String resultDel = delete.delete_student(selectedStudentNumEt);
-                    Log.d(TAG, resultDel);
-                    refresh();
+                    AlertDialog.Builder builderConf = new AlertDialog.Builder(builder.getContext());
+                    builderConf.setTitle("Supprimer");
+                    builderConf.setMessage("Voulez-vous vraiment supprimer les enregistrements de l'etudiant #"+selectedStudentNumEt+"?");
+                    builderConf.setPositiveButton("Supprimer", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Perform action on positive button click (e.g., confirm deletion)
+                            CRUDStudent delete = new CRUDStudent();
+                            String resultDel = delete.delete_student(selectedStudentNumEt);
+                            Log.d(TAG, resultDel);
+                            dialog.dismiss();
+                            refresh();
+                        }
+                    });
+                    builderConf.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss the dialog (optional)
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialogConf = builderConf.create();
+                    dialogConf.show();
                 }
             });
 
-            builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("Modifier", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // Dismiss the dialog (optional)
